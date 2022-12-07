@@ -30,15 +30,11 @@ def show_frame():
 
             _, frame = cap.read()
             
-            image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            
-            image = cv2.flip(image, 1)            
+            image = cv2.flip(frame, 1)            
 
             frame_height, frame_width = image.shape[:2]
 
             results = hands.process(image)
-            
-            image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
             draw_debug_lines(image, frame_width, frame_height)
 
