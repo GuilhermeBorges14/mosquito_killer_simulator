@@ -34,9 +34,11 @@ def normalize_distance(top_point, bottom_point):
     return normalized_distance
 
 def draw_hands(image, mesh_points, landmark_results):
+    # draw lines in index and thumb fingers
     image = cv2.line(image, mesh_points[THUMB_TIP], mesh_points[THUMB_IP], pink, 14, default_line)
     image = cv2.line(image, mesh_points[INDEX_FINGER_TIP], mesh_points[INDEX_FINGER_DIP], pink, 14, default_line)
 
+    # draw the lines and circles based in all hand landmarks
     for _, hand in enumerate(landmark_results):
         mp_drawing.draw_landmarks(image, hand, mp_hands.HAND_CONNECTIONS, 
                                 mp_drawing.DrawingSpec(color=pink, thickness=default_thickness, circle_radius=2),
@@ -63,6 +65,7 @@ def draw_close_button(image, frame_height, frame_width, close_button, finger_pos
     x_text = int(frame_width * 0.918)
     y_text = int(frame_height * 0.1)
 
+    # if the index finger is inside of close button, the window would be closed
     if(x_pos > x_initial and x_pos < X_final):
         if(y_pos > y_initial and y_pos < y_final):
             close_button = -1
@@ -74,8 +77,9 @@ def draw_close_button(image, frame_height, frame_width, close_button, finger_pos
 
     textfinal_point= np.array([x_text, y_text])
 
+    # draw the X inside the button
     image = cv2.putText(image,"X", textfinal_point, font_family, font_size, black, default_thickness, default_line)
-
+    # draw the close button lines
     image = cv2.rectangle(image,top_initial_point , bottom_final_point, red, close_button, default_line)
 
     return image
